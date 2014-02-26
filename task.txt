@@ -1,0 +1,15 @@
+Task: Given n employees, with an employee structure like so -
+ 
+case class Employee(id:Long, salary:Double, year:Short, name:String)
+ 
+a. Use a mapper to give each employee an increment based on his year & salary
+  // every employee gets an increment
+  // $1 for each day since the year they joined the company + 0.1% of their existing salary
+  // 10% taxes, so 0.9 * above
+  
+b. Use a filter to separate odd & even employees into 2 buckets, by the employee id
+c. Use a reducer to sum the employee increments in each bucket
+ 
+Do this task in both DScalding & TrivialHadoop.
+Confirm that the results agree.
+Benchmark based on number of employees.

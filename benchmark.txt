@@ -1,0 +1,17 @@
+TrivialHadoop Framework:
+Rows  Runtime in seconds(user+sys)
+1K    0.98
+10K   2.1
+100K  2.6
+1M    6.1
+10M   40.3
+100M  406.6
+ 
+Scalding Framework ( in hdfs-local mode )
+Rows  Runtime in seconds(user+sys)
+1K    4.76
+10K   6.2
+100K  6.5
+1M    11.7
+10M   61.4
+100M  606.2
