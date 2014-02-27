@@ -1,7 +1,6 @@
 trivialhadoop
 =============
 
-Trivial Hadoop
 Scalding vs TrivialHadoop:  
  
 Scalding is an industrial-strength Map Reduce framework for Scala, 
