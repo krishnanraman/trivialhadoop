@@ -35,6 +35,8 @@ object TestMapReduce extends App {
 
   val evenIncr = reduce(filter(map(rows, mymapper), evenfilter), myreducer).num
   val oddIncr =  reduce(filter(map(rows, mymapper), oddfilter ), myreducer).num
+  val total = sum(map(rows, mymapper), (r:EmployeeIncrement) => r.incr)
+  assert( math.abs(total - (evenIncr + oddIncr)) < 1e-3)
   val time = timer - init
-  printf("Odd Increment: %.3f\tEven Increment: %.3f\tTime in ms: %d\tTotal Records: %d\n", oddIncr, evenIncr, time, totalRecords )
+  printf("Total %.3f\tOdd Increment: %.3f\tEven Increment: %.3f\tTime in ms: %d\tTotal Records: %d\n", total, oddIncr, evenIncr, time, totalRecords )
 }
