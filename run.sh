@@ -1,3 +1,3 @@
-scalac *.scala
+scalac TestMapReduce.scala TrivialHadoop.scala OreoSmall.scala
 scala TestMapReduce 10000000 employees.tsv
 scala OreoSmall oreoall.tsv
