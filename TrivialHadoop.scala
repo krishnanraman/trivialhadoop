@@ -78,12 +78,8 @@ object TrivialHadoop {
 
   def toTsv[R](filename:String, func:R=>String, mkR:Int=>R, n:Int) = {
     val pw = new java.io.PrintWriter(filename)
-    for( i<- 0 until n) {
-      pw.println(func(mkR(i)))
-      //if (i%10000 == 0) printf("\nSaved %d rows to %s\n", i, filename)
-    }
+    for( i<- 0 until n) pw.println(func(mkR(i)))
     pw.flush
     pw.close
-    //printf("\nSaved %d rows to %s\n", n, filename)
   }
 }
