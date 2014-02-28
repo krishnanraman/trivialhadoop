@@ -4,13 +4,9 @@ object TrivialHadoop {
   def timer = System.currentTimeMillis
   def rnd = util.Random
 
-  trait Mapper[R,S] {
-    def map(r:R):S
-  }
+  trait Mapper[R,S] { def map(r:R):S }
 
-  trait Reducer[R,S] {
-    def reduce(r:Iterator[R]):S
-  }
+  trait Reducer[R,S] { def reduce(r:Iterator[R]):S }
 
   case class mkMapper[R,S](mapper:R=>S) extends Mapper[R,S] {
     override def map(r:R) = mapper(r)
@@ -20,35 +16,22 @@ object TrivialHadoop {
     override def reduce(r:Iterator[R]) = reducer(r)
   }
 
-  def map[R,S](rows:Iterator[R], mapper : R=>S) = {
-    val mr = mkMapper(mapper)
-    rows.map{row => mr.map(row)}
-  }
+  def map[R,S](rows:Iterator[R], mapper : R=>S):Iterator[S] = map(rows, mkMapper(mapper))
 
-  def map[R,S](rows:Iterator[R], mr : Mapper[R,S]) = {
-    rows.map{row => mr.map(row)}
-  }
+  def map[R,S](rows:Iterator[R], mr : Mapper[R,S]):Iterator[S] = rows.map{row => mr.map(row)}
 
-  def filter[R](rows:Iterator[R], predicate:R=>Boolean) = {
+  def filter[R](rows:Iterator[R], predicate:R=>Boolean) =
     rows.flatMap{ row => if (predicate(row)) Some(row) else None }
-  }
 
-  def reduce[R,S](rows:Iterator[R], reducer:Iterator[R]=>S) = {
-    val mr = mkReducer(reducer)
-    mr.reduce(rows)
-  }
+  def reduce[R,S](rows:Iterator[R], reducer:Iterator[R]=>S):S = reduce(rows, mkReducer(reducer))
 
-  def reduce[R,S](rows:Iterator[R], mr:Reducer[R,S]) = {
-    mr.reduce(rows)
-  }
+  def reduce[R,S](rows:Iterator[R], mr:Reducer[R,S]):S = mr.reduce(rows)
 
-  def sum[R](rows:Iterator[R], func:R=>Int) = {
+  def sum[R](rows:Iterator[R], func:R=>Int) =
     rows.foldLeft(0)((a,r) => a + func(r))
-  }
 
-  def sum[R](rows:Iterator[R], func:R=>Double) = {
+  def sum[R](rows:Iterator[R], func:R=>Double) =
     rows.foldLeft(0.0)((a,r) => a + func(r))
-  }
 
   def group[R](rows:Iterator[R]):Stream[(R,Int)] = {
     rows
@@ -70,7 +53,6 @@ object TrivialHadoop {
     val iter = io.Source
     .fromFile(filename)
     .getLines
-
     if (n == Integer.MAX_VALUE)
       iter.map{str:String => func(str)}
     else
