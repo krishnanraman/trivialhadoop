@@ -25,12 +25,20 @@ object TrivialHadoop {
     rows.map{row => mr.map(row)}
   }
 
+  def map[R,S](rows:Iterator[R], mr : Mapper[R,S]) = {
+    rows.map{row => mr.map(row)}
+  }
+
   def filter[R](rows:Iterator[R], predicate:R=>Boolean) = {
     rows.flatMap{ row => if (predicate(row)) Some(row) else None }
   }
 
   def reduce[R,S](rows:Iterator[R], reducer:Iterator[R]=>S) = {
     val mr = mkReducer(reducer)
+    mr.reduce(rows)
+  }
+
+  def reduce[R,S](rows:Iterator[R], mr:Reducer[R,S]) = {
     mr.reduce(rows)
   }
 

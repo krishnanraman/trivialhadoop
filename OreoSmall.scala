@@ -15,5 +15,5 @@ object OreoSmall extends App {
   def mapper(o:OreoRec) = DateHour(o.date.split(" ").head, o.hour)
   def mkString(dh:DateHour) = dh.date + "T" + dh.hour
 
-  summary(group(map(rows, mapper)), mkString)
+  summary(group(map(rows, mapper _)), mkString)
 }
